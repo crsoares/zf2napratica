@@ -91,7 +91,7 @@ class CommentTest extends ModelTestCase
 
 	/**
 	 * @expectedException Zend\Db\Adapter\Exception\InvalidQueryException
-	 * @expectedExceptionMessage Statement  could  not be executed
+	 * @expectedExceptionMessage Statement could not be executed
 	 */
 	public function testUpdateInvalido()
 	{
@@ -99,7 +99,7 @@ class CommentTest extends ModelTestCase
 		$comment = $this->addComment();
 		$saved = $tableGateway->save($comment);
 		$id = $saved->id;
-		$comment = $tableGateway->get('id');
+		$comment = $tableGateway->get($id);
 		$comment->post_id = 10;
 		$updated = $tableGateway->save($comment);
 	}
@@ -139,7 +139,7 @@ class CommentTest extends ModelTestCase
 		$comment->post_id = $post->id;
 		$comment->description = 'Comentário importante <script>alert("ok");</script><br />';
 		$comment->name = 'Elton Minetto';
-		$comment->email = 'eminetto@coderock.com';
+		$comment->email = 'eminetto@coderockr.com';
 		$comment->webpage = 'http://www.eltonminetto.net';
 		$comment->comment_date = date('Y-m-d H:i:s');
 		return $comment;

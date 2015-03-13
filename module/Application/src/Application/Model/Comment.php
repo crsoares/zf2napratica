@@ -75,6 +75,88 @@ class Comment extends Entity
 					array('name' => 'Int')
 				),
 			)));
+
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'post_id',
+				'required' => true,
+				'filters' => array(
+					array('name' => 'Int'),
+				),
+			)));
+
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'description',
+				'required' => true,
+				'filters' => array(
+					array('name' => 'StripTags'),
+					array('name' => 'StringTrim'),
+				),
+			)));
+
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'email',
+				'required' => true,
+				'filters' => array(
+					array('name' => 'StripTags'),
+					array('name' => 'StringTrim'),
+				),
+				'validators' => array(
+					array(
+						'name' => 'EmailAddress',
+					),
+				),
+			)));
+
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'name',
+				'required' => true,
+				'filters' => array(
+					array('name' => 'StripTags'),
+					array('name' => 'StringTrim'),
+				),
+				'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'options' => array(
+							'encoding' => 'UTF-8',
+							'min' => 1,
+							'max' => 100,
+						),
+					),
+				),
+			)));
+
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'webpage',
+				'required' => true,
+				'filters' => array(
+					array('name' => 'StripTags'),
+					array('name' => 'StringTrim'),
+				),
+				'validators' => array(
+					array(
+						'name' => 'StringLength',
+						'options' => array(
+							'encoding' => 'UTF-8',
+							'min' => 1,
+							'max' => 200,
+						),
+					),
+				),
+			)));
+
+			$inputFilter->add($factory->createInput(array(
+				'name' => 'comment_date',
+				'required' => false,
+				'filters' => array(
+					array('name' => 'StripTags'),
+					array('name' => 'StringTrim'),
+				),
+			)));
+
+			$this->inputFilter = $inputFilter;
 		}
+
+		return $this->inputFilter;
 	}
 }
