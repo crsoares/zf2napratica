@@ -66,7 +66,7 @@ class IndexControllerText extends ControllerTestCase
 		$this->assertArrayHasKey('posts', $variables);
 
 		//Faz a comparacao dos dados
-		$controllerData = $variables["posts"];
+		$controllerData = $variables["posts"]->getCurrentItems()->toArray();
 		$this->assertEquals(
 			$postA->title, $controllerData[0]['title']
 		);
@@ -117,69 +117,6 @@ class IndexControllerText extends ControllerTestCase
 		$variables = $result->getVariables();
 		$controllerData = $variables["posts"]->getCurrentItems()->toArray();
 		$this->assertEquals(5, count($controllerData));
-	}
-
-	/**
-	 * Testa a página de detalhes do post
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Código obrigatório
-	 */
-	public function testWithOutIdPostAction()
-	{
-		//Invoca a rota
-		$this->routeMatch->setParam('action', 'post');
-		$result = $this->controller->dispatch($this->request, $this->response);
-	}
-
-	/**
-	 * Testa a página de detalhes do post
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find row 1
-	 */
-	public function testInvalidPostAction()
-	{
-		//Invoca a rota
-		$this->routeMatch->setParam('action', 'post');
-		$this->routeMatch->setParam('id', 1);
-		$result = $this->controller->dispatch($this->request, $this->response);
-	}
-
-	/**
-	 * Teste a página de detalhes do post
-	 */
-	public function testPostAction()
-	{
-		//Cria posts para testar
-		$postA = $this->addPost();
-
-		//cria comentários
-		$commentA = $this->addComment($postA->id);
-		$commentB = $this->addComment($postB->id);
-
-		//Invoca a rota index
-		$this->routeMatch->setParam('action', 'post');
-		$this->routeMatch->setParam('id', $postA->id);
-		$result = $this->controller->dispatch($this->resquest, $this->response);
-
-		//Verifica o response
-		$response = $this->controller->getResponse();
-		$this->assertEquals(200, $response->getStatusCode());
-
-		//Testa se um ViewModel foi retornado
-		$this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
-
-		//Testa os dados da view
-		$variables = $result->getVariables();
-		$this->assertArrayHasKey('post', $variables);
-
-		//Faz a comparação dos dados
-		$controllerData = $variables["post"];
-		$post = $controllerData;
-		$this->assertEquals($postA->title, $post['title']);
-
-		$this->assertEquals(2, count($post['comments']));
-
-		$this->assertEquals($commentA->id, $post['comments'][0]['id']);
 	}
 
 	/**
